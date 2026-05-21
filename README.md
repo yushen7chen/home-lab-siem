@@ -114,7 +114,7 @@ Host Machine
 
 \*\*T1059.001 — Suspicious PowerShell Execution\*\*
 
-
+```spl
 
 index=main source="WinEventLog:Windows PowerShell" EventCode=400
 
@@ -128,13 +128,13 @@ OR (source="WinEventLog:Microsoft-Windows-PowerShell/Operational" EventCode=4104
 
 | sort -\_time
 
-
+```
 
 
 
 \*\*T1087 — Account Discovery\*\*
 
-
+```spl
 
 index=main source="WinEventLog:Windows PowerShell"
 
@@ -144,13 +144,13 @@ index=main source="WinEventLog:Windows PowerShell"
 
 | sort -\_time
 
-
+```
 
 
 
 \*\*T1082 — System Information Discovery\*\*
 
-
+```spl
 
 index=main source="WinEventLog:Windows PowerShell"
 
@@ -160,13 +160,13 @@ index=main source="WinEventLog:Windows PowerShell"
 
 | sort -\_time
 
-
+```
 
 
 
 \*\*T1057 — Process Discovery\*\*
 
-
+```spl
 
 index=main source="WinEventLog:Windows PowerShell"
 
@@ -176,13 +176,13 @@ index=main source="WinEventLog:Windows PowerShell"
 
 | sort -\_time
 
-
+```
 
 
 
 \*\*Composite — Reconnaissance Chain (Highest Value)\*\*
 
-
+```spl
 
 index=main source="WinEventLog:Windows PowerShell"
 
@@ -204,7 +204,7 @@ index=main source="WinEventLog:Windows PowerShell"
 
 | sort -score
 
-
+```
 
 
 
@@ -332,7 +332,7 @@ Kali Linux VM: 192.168.10.20 (Internal Network: labnet)
 
 \### Enable PowerShell Logging (Windows 10 VM)
 
-powershell
+```powershell
 
 \# Enable Script Block Logging
 
@@ -344,7 +344,7 @@ reg add "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLo
 
 reg add "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Audit" /v ProcessCreationIncludeCmdLine\_Enabled /t REG\_DWORD /d 1 /f
 
-
+```
 
 
 
