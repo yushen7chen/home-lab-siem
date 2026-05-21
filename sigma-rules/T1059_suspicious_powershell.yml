@@ -1,0 +1,29 @@
+title: Suspicious PowerShell Execution
+id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+status: experimental
+description: Detects suspicious PowerShell execution patterns consistent with T1059.001
+references:
+    - https://attack.mitre.org/techniques/T1059/001/
+author: Yushen Chen
+date: 2026/05/20
+tags:
+    - attack.execution
+    - attack.t1059.001
+logsource:
+    product: windows
+    service: powershell
+detection:
+    keywords:
+        - 'bypass'
+        - 'encodedcommand'
+        - 'downloadstring'
+        - 'iex'
+        - 'invoke-expression'
+        - 'net user'
+        - 'Get-LocalUser'
+        - 'hidden'
+    condition: keywords
+falsepositives:
+    - Legitimate administrative scripts
+    - Software installation processes
+level: high
