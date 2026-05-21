@@ -1,0 +1,44 @@
+title: Systematic PowerShell Reconnaissance Chain
+id: e5f6a7b8-c9d0-1234-efab-345678901234
+status: experimental
+description: Detects systematic reconnaissance combining multiple discovery techniques in a short timeframe — high confidence indicator of post-exploitation activity
+references:
+    - https://attack.mitre.org/techniques/T1059/001/
+    - https://attack.mitre.org/techniques/T1087/
+    - https://attack.mitre.org/techniques/T1082/
+    - https://attack.mitre.org/techniques/T1057/
+author: Yushen Chen
+date: 2026/05/20
+tags:
+    - attack.execution
+    - attack.discovery
+    - attack.t1059.001
+    - attack.t1087
+    - attack.t1082
+    - attack.t1057
+logsource:
+    product: windows
+    service: powershell
+detection:
+    technique_execution:
+        keywords:
+            - 'bypass'
+            - 'encodedcommand'
+            - 'iex'
+    technique_account:
+        keywords:
+            - 'net user'
+            - 'Get-LocalUser'
+    technique_sysinfo:
+        keywords:
+            - 'systeminfo'
+            - 'Get-ComputerInfo'
+    technique_process:
+        keywords:
+            - 'Get-Process'
+            - 'tasklist'
+    condition: 2 of technique_*
+falsepositives:
+    - Authorized penetration testing
+    - Security team red team exercises
+level: high

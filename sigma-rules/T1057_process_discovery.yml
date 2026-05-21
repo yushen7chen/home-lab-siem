@@ -1,0 +1,25 @@
+title: Process Discovery via PowerShell
+id: d4e5f6a7-b8c9-0123-defa-234567890123
+status: experimental
+description: Detects process enumeration via Get-Process and tasklist consistent with T1057
+references:
+    - https://attack.mitre.org/techniques/T1057/
+author: Yushen Chen
+date: 2026/05/20
+tags:
+    - attack.discovery
+    - attack.t1057
+logsource:
+    product: windows
+    service: powershell
+detection:
+    keywords:
+        - 'Get-Process'
+        - 'tasklist'
+        - 'ps aux'
+    condition: keywords
+falsepositives:
+    - Monitoring and performance tools
+    - Administrative scripts
+    - Task manager equivalents
+level: low

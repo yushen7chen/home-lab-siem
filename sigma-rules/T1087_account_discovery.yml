@@ -1,0 +1,25 @@
+title: Account Discovery via Net and PowerShell Commands
+id: b2c3d4e5-f6a7-8901-bcde-f12345678901
+status: experimental
+description: Detects account enumeration via net user, Get-LocalUser, and Get-LocalGroup commands consistent with T1087
+references:
+    - https://attack.mitre.org/techniques/T1087/
+author: Yushen Chen
+date: 2026/05/20
+tags:
+    - attack.discovery
+    - attack.t1087
+logsource:
+    product: windows
+    service: powershell
+detection:
+    keywords:
+        - 'net user'
+        - 'Get-LocalUser'
+        - 'Get-LocalGroup'
+        - 'net localgroup'
+    condition: keywords
+falsepositives:
+    - IT administrators performing routine account audits
+    - Monitoring and inventory tools
+level: medium
