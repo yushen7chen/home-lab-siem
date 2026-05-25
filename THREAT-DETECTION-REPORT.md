@@ -98,6 +98,8 @@ detection coverage with minimal performance impact.
 
 | 4 | T1057 | Process Discovery | Discovery | Yes |
 
+| 5 | T1046 | Network Service Discovery | Discovery | Yes |
+
 
 
 \---
@@ -622,6 +624,74 @@ Real-time alerting must account for this latency.
 
 \---
 
+---
+
+## Finding 5 — T1046: Network Service Discovery (External Attack)
+
+**Tactic:** Discovery  
+**Severity:** High  
+**Detection Status:** Detected  
+**Attack Source:** Kali Linux VM (192.168.10.20)  
+
+**Attack Description:**  
+A network port scan was conducted from the Kali Linux attacker VM 
+against the Windows 10 target using Nmap. This simulates an attacker 
+who has gained a foothold on the network and is performing internal 
+reconnaissance to identify open services and potential pivot points.
+
+This is the only technique in this exercise conducted from an 
+external attacker machine — all other techniques were executed 
+locally on the target to simulate post-exploitation activity.
+
+**Simulation Command (Kali Linux):**
+nmap -sV -sC 192.168.10.10
+nmap -Pn -sV 192.168.10.10
+nmap --script smb-enum-shares 192.168.10.10
+
+**Open Ports Discovered by Attacker:**
+
+| Port | Service | Risk |
+|------|---------|------|
+| 135 | RPC | Medium — lateral movement vector |
+| 139 | NetBIOS | Medium — file share enumeration |
+| 445 | SMB | High — credential attacks, lateral movement |
+| 8089 | Splunk | High — SIEM management port exposed |
+
+**Log Evidence:**  
+- Source: Windows Firewall Log (pfirewall.log)  
+- Ingested via: Splunk Universal Forwarder monitor  
+- Key indicator: Single source IP (192.168.10.20) connecting 
+  to port 445 more than 30 times in short timeframe  
+
+**Attack Timeline:**
+[T+00:00] Nmap scan initiated from Kali (192.168.10.20)
+[T+00:01] Windows firewall logs 30+ connection attempts to port 445
+[T+00:02] Firewall log written to pfirewall.log
+[T+00:04] Splunk Forwarder ingests firewall log
+[T+00:05] SPL detection rule triggers on scan_count > 1
+[T+00:05] Alert recorded in Splunk Triggered Alerts
+
+**SPL Detection Rule:**
+index=main sourcetype=win_firewall "192.168.10.20"
+| rex field=_raw "(?P<action>\w+)\s+(?P<protocol>\w+)\s+(?P<src_ip>\d+.\d+.\d+.\d+)\s+(?P<dst_ip>\d+.\d+.\d+.\d+)\s+(?P<src_port>\d+)\s+(?P<dst_port>\d+)"
+| where src_ip="192.168.10.20"
+| stats count as scan_count by src_ip, dst_port
+| where scan_count > 1
+| sort -scan_count
+
+**False Positive Analysis:**  
+- Authorized vulnerability scanners (Nessus, Qualys) would 
+  generate similar patterns — allowlist known scanner IPs  
+- Network monitoring tools may scan ports periodically  
+- Recommend baselining normal scan activity and alerting 
+  on new/unknown source IPs only  
+
+**Mitigation Recommendations:**  
+1. Implement network segmentation — attacker VM should not 
+   have direct access to SIEM management port (8089)  
+2. Block external access to SMB ports (445, 139) at perimeter  
+3. Deploy honeypot ports to detect reconnaissance activity  
+4. Alert on any new internal IP scanning more than 5 ports
 
 
 \## Appendix — Sigma Rules
