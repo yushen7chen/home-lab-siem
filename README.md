@@ -98,6 +98,8 @@ Host Machine
 
 | Composite | Reconnaissance Chain | Execution + Discovery | High | Yes |
 
+| T1046 | Network Service Discovery | Discovery | High | Yes |
+
 
 
 \---
@@ -206,7 +208,9 @@ index=main source="WinEventLog:Windows PowerShell"
 
 ```
 
-
+**Note:** T1046 was simulated from an external Kali Linux attacker VM 
+(192.168.10.20) via Nmap — all other techniques executed locally 
+on the target to simulate post-exploitation activity.
 
 \### Sigma Rules
 
