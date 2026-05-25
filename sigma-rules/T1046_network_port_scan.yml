@@ -1,0 +1,27 @@
+title: Network Port Scan Detected from External Host
+id: f6a7b8c9-d0e1-2345-fab0-456789012345
+status: experimental
+description: Detects systematic port scanning from a single source IP consistent with T1046 Network Service Discovery. Triggered when a single external host connects to multiple distinct ports within a short timeframe.
+references:
+    - https://attack.mitre.org/techniques/T1046/
+author: Yushen Chen
+date: 2026/05/25
+tags:
+    - attack.discovery
+    - attack.t1046
+logsource:
+    product: windows
+    service: firewall
+detection:
+    selection:
+        action: ALLOW
+    filter:
+        src_ip:
+            - '127.0.0.1'
+            - '192.168.10.10'
+    condition: selection and not filter
+falsepositives:
+    - Authorized vulnerability scanning
+    - Network monitoring tools
+    - IT asset discovery tools
+level: high
