@@ -100,6 +100,8 @@ Host Machine
 
 | T1046 | Network Service Discovery | Discovery | High | Yes |
 
+| T1048 | Exfiltration over Alternative Protocol | Exfiltration | Medium | Yes |
+
 
 
 \---
