@@ -74,6 +74,8 @@ Host Machine
 
 | WinEventLog:Microsoft-Windows-PowerShell/Operational | 4104 | Script block logging |
 
+| Windows Firewall Log | N/A | Inbound/outbound traffic monitoring |
+
 
 
 \---
@@ -235,6 +237,10 @@ Portable detection rules in Sigma format — usable with any SIEM:
 | \[T1057\_process\_discovery.yml](./sigma-rules/T1057\_process\_discovery.yml) | T1057 | Low |
 
 | \[T1059\_T1087\_T1082\_T1057\_recon\_chain.yml](./sigma-rules/T1059\_T1087\_T1082\_T1057\_recon\_chain.yml) | Composite | High |
+
+| [T1046_network_port_scan.yml](./sigma-rules/T1046_network_port_scan.yml) | T1046 | High |
+
+| [T1048_abnormal_outbound_traffic.yml](./sigma-rules/T1048_abnormal_outbound_traffic.yml) | T1048 | Medium |
 
 
 
